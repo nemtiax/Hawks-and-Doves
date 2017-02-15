@@ -19,6 +19,19 @@ def linear(input_, output_size, scope=None, stddev=0.5, bias_start=0.0, with_w=F
         else:
             return tf.matmul(input_, matrix) + bias
 
-def squash(input,factor=0.05):
+def squash(input,factor=0.01):
         return tf.select(input>0.5,(1-factor)+factor*input,input*factor)
         #return 1/(1+tf.exp(-30*(input-0.5)))
+def kl_divergence(a,b):
+
+    quo = tf.divide(a,b)
+    log_q = tf.log(quo)
+
+    return tf.reduce_sum(tf.multiply(a,log_q))
+
+def js_divergence(a,b):
+    m = tf.multiply(0.5,tf.add(a,b))
+    klam = tf.multiply(0.5,kl_divergence(a,m))
+    klbm = tf.multiply(0.5,kl_divergence(b,m))
+
+    return tf.reduce_sum(tf.add(klam,klbm))

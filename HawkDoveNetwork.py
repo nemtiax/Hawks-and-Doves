@@ -4,8 +4,8 @@ from ops import *
 class HawkDove(object):
     def __init__(self,model_name,batch_size,z_size=10):
         self.model_name = model_name
-        self.v = 2
-        self.c = 10
+        self.v = 1
+        self.c = 2
         self.z_size = z_size
         self.batch_size = batch_size
         self.z1 = tf.placeholder(tf.float32,[self.batch_size,self.z_size])
